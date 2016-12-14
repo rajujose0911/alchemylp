@@ -2,22 +2,20 @@
  * Compiles JS to dist
  **/
 
-'use strict';
-
-var paths = require('./config.js').paths;
-var gulp = require('gulp');
-var runSequence = require('run-sequence');
-var iconfont = require('gulp-iconfont');
-var iconfontCSS = require('gulp-iconfont-css');
-var plumber = require('gulp-plumber');
-var onError = require('./on-error.js');
+const paths = require('./config.js').paths;
+const gulp = require('gulp');
+const runSequence = require('run-sequence');
+const iconfont = require('gulp-iconfont');
+const iconfontCSS = require('gulp-iconfont-css');
+const plumber = require('gulp-plumber');
+const onError = require('./on-error.js');
 
 // Paths
-var watchPath = paths.src_icons + '/**/*.svg';
-var targetPath = '../../../src/scss/components/icon/_icon-fonts.scss';
-var fontPath = '../../fonts/icon-fonts/';
-var destPath = paths.dest_iconFonts;
-var imagesDestPath = paths.dest_icons;
+const watchPath = paths.src_icons + '/**/*.svg';
+const targetPath = '../../../src/scss/components/icon/_icon-fonts.scss';
+const fontPath = '../../fonts/icon-fonts/';
+const destPath = paths.dest_iconFonts;
+const imagesDestPath = paths.dest_icons;
 
 gulp.task('icon-fonts', ['icon-fonts:copy-to-images'], function() {
   return gulp.src([watchPath])
@@ -42,13 +40,12 @@ gulp.task('icon-fonts', ['icon-fonts:copy-to-images'], function() {
     .pipe(gulp.dest(destPath));
 });
 
-gulp.task('icon-fonts:copy-to-images', function() {
-  return gulp.src([watchPath])
-    .pipe(gulp.dest(imagesDestPath));
-});
+gulp.task('icon-fonts:copy-to-images', () =>
+  gulp.src([watchPath]).pipe(gulp.dest(imagesDestPath))
+);
 
-gulp.task('icon-fonts:watch', ['icon-fonts'], function() {
-  return gulp.watch(watchPath).on('change', function() {
-    runSequence('icon-fonts', 'styles', 'browser-sync-reload');
-  });
-});
+gulp.task('icon-fonts:watch', ['icon-fonts'], () =>
+  gulp.watch(watchPath).on('change', () =>
+    runSequence('icon-fonts', 'styles', 'browser-sync-reload')
+  )
+);

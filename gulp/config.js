@@ -14,10 +14,8 @@
  * limitations under the License.
  */
 
-'use strict';
-
-var src = './src';
-var dest = './public';
+const src = './src';
+const dest = './public';
 
 module.exports = {
   paths: {

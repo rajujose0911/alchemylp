@@ -14,13 +14,11 @@
  * limitations under the License.
  */
 
-'use strict';
-
 // Module dependencies
-var express = require('express');
-var bodyParser = require('body-parser');
-var path = require('path');
-var morgan = require('morgan');
+const express = require('express');
+const bodyParser = require('body-parser');
+const path = require('path');
+const morgan = require('morgan');
 
 module.exports = function(app) {
   // Configure Express

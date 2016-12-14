@@ -601,10 +601,4 @@ $(document).ready(function() {
     console.log(error);
   }
 
-  // CSRF
-  $.ajaxSetup({
-    headers: {
-      'csrf-token': $('meta[name="ct"]').attr('content')
-    }
-  });
 });

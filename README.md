@@ -1,6 +1,4 @@
 # AlchemyLanguage Demo
-[![Build Status](https://travis-ci.org/watson-developer-cloud/alchemylanguage-nodejs.svg?branch=master)](http://travis-ci.org/watson-developer-cloud/alchemylanguage-nodejs)
-[![codecov.io](https://codecov.io/github/watson-developer-cloud/alchemylanguage-nodejs/coverage.svg?branch=master)](https://codecov.io/github/watson-developer-cloud/alchemylanguage-nodejs?branch=master)
 
 [AlchemyLanguage][service_url] is a collection of APIs that offer text analysis through natural language processing. The AlchemyLanguage APIs can analyze text and help you to understand its sentiment, keywords, entities, high-level concepts and more.
 
@@ -8,119 +6,129 @@ Give it a try! Click the button below to fork into IBM DevOps Services and deplo
 
 [![Deploy to Bluemix](https://bluemix.net/deploy/button.png)](https://bluemix.net/deploy?repository=https://github.com/watson-developer-cloud/alchemylanguage-nodejs)
 
-*Note:* The automatic Deploy to Bluemix process may fail if you already have a free AlchemyAPI intance on your account. In that case, please follow the manual steps below.
+*Note:* The automatic Deploy to Bluemix process may fail if you already have a free AlchemyAPI instance on your account. In that case, please follow the manual steps below.
 
-## Getting Started
+## Getting started
 
-1. Create a Bluemix Account
+1. You need a Bluemix account. If you don't have one, [sign up][sign_up]. Experimental Watson Services are free to use.
 
-  [Sign up][sign_up] in Bluemix, or use an existing account.
+1. Download and install the [Cloud-foundry CLI][cloud_foundry] tool if you haven't already.
 
-2. Download and install the [Cloud-foundry CLI][cloud_foundry] tool
+1. Edit the `manifest.yml` file and change `<application-name>` to something unique. The name you use determines the URL of your application. For example, `<application-name>.mybluemix.net`.
 
-3. Edit the `manifest.yml` file and change the `- name: alchemy-language-demo` line to to something unique.
-  ```yml
-  ---
-  declared-services:
-    alchemy-service:
-      label: alchemy_api
-      plan: standard
+  ```yaml
   applications:
-  - name: <application-name>
-    command: npm start
-    memory: 512MB
-    services:
+  - services:
     - alchemy-service
-    env:
-      NPM_CONFIG_PRODUCTION: false
+    name: <application-name>
+    command: npm start
+    path: .
+    memory: 512M
   ```
-  The name you use will determinate your application url initially, e.g. `<application-name>.mybluemix.net`.
 
-4. Connect to Bluemix in the command line tool
-  For US Region
-  ```sh
-  $ cf api https://api.ng.bluemix.net
-  ```
+1. Connect to Bluemix with the command line tool.
 
   ```sh
-  $ cf login -u <your user ID>
+  cf api https://api.ng.bluemix.net
+  cf login
   ```
 
-5. Create the AlchemyLanguage Service in Bluemix
+1. Create and retrieve service keys to access the [AlchemyLanguage][docs] service:
 
-  ```sh
-  $ cf create-service alchemy_api standard alchemy-service
+  ```none
+  cf create-service alchemy_api standard alchemy-service
+  cf create-service-key alchemy-service myKey
+  cf service-key alchemy-service myKey
   ```
-  
-  Note: on Bluemix Trial accounts, you'll need to use the `free` plan instead:
-  
-  ```sh
-  $ cf create-service alchemy_api free alchemy-service
+  Note: on Bluemix Trial accounts, you'll need to use the free plan instead:
+
+  ```none
+  cf create-service alchemy_api free alchemy-service
   ```
-  
-  Bluemix accounts are limited to a single free alchemy_api service instance; if you already have one, then edit your `manifest.yml` to point to it.
+  Bluemix accounts are limited to a single free alchemy_api service instance; if you already have one, then edit your use that `api_key` in the next step.
 
-6. Push it live!
+1. Create a `.env` file in the root directory by copying the sample `.env.example` file using the following command:
 
-  ```sh
-  $ cf push
+  ```none
+  cp .env.example .env
+  ```
+  You will update the `.env` with the information you retrieved in steps 5
+
+  The `.env` file will look something like the following:
+
+  ```none
+  ALCHEMY_LANGUAGE_API_KEY=
   ```
 
-See the full [Getting Started][getting_started] documentation for more details, including code snippets and references.
+1. Install the dependencies you application need:
 
-## Running locally
+  ```none
+  npm install
+  ```
 
-  The application uses [Node.js](http://nodejs.org/) and [npm](https://www.npmjs.com/).
+1. Start the application locally:
 
-1. Copy the `apikey` from your `alchemy-service` service in Bluemix to a  `.env` file in the root directory (`ALCHEMY_LANGUAGE_API_KEY=<apikey>`)
-2. Install [Node.js](http://nodejs.org/)
-3. Go to the project folder in a terminal and run:
-    ```
-    npm install
-    ```
-4. Start the application
-    ```
-    npm start
-    ```
-6. Go to http://localhost:3000
+  ```none
+  npm start
+  ```
+
+1. Point your browser to [http://localhost:3000](http://localhost:3000).
+
+1. **Optional:** Push the application to Bluemix:
+
+  ```none
+  cf push
+  ```
+
+After completing the steps above, you are ready to test your application. Start a browser and enter the URL of your application.
+
+            <your application name>.mybluemix.net
+
+
+For more details about developing applications that use Watson Developer Cloud services in Bluemix, see [Getting started with Watson Developer Cloud and Bluemix][getting_started].
+
 
 ## Troubleshooting
 
-To troubleshoot your Bluemix application, use the logs. To see the logs, run:
+* The main source of troubleshooting and recovery information is the Bluemix log. To view the log, run the following command:
 
   ```sh
-  $ cf logs <application-name> --recent
+  cf logs <application-name> --recent
   ```
+
+* For more details about the service, see the [documentation][nlc_docs] for the AlchemyLanguage.
+
+
 
 ## License
 
-  This sample code is licensed under Apache 2.0. Full license text is available in [LICENSE](LICENSE).
+  This sample code is licensed under Apache 2.0.
 
 ## Contributing
 
   See [CONTRIBUTING](.github/CONTRIBUTING.md).
 
 ## Open Source @ IBM
-
   Find more open source projects on the [IBM Github Page](http://ibm.github.io/)
 
-### Privacy Notice
+## Privacy Notice
 
-This node sample web application includes code to track deployments to Bluemix and other Cloud Foundry platforms. The following information is sent to a [Deployment Tracker][deploy_track_url] service on each deployment:
+Sample web applications that include this package may be configured to track deployments to [IBM Bluemix](https://www.bluemix.net/) and other Cloud Foundry platforms. The following information is sent to a [Deployment Tracker](https://github.com/IBM-Bluemix/cf-deployment-tracker-service) service on each deployment:
 
+* Node.js package version
+* Node.js repository URL
 * Application Name (`application_name`)
 * Space ID (`space_id`)
 * Application Version (`application_version`)
 * Application URIs (`application_uris`)
+* Labels of bound services
+* Number of instances for each bound service and associated plan information
 
-This data is collected from the `VCAP_APPLICATION` environment variable in IBM Bluemix and other Cloud Foundry platforms. This data is used by IBM to track metrics around deployments of sample applications to IBM Bluemix. Only deployments of sample applications that include code to ping the Deployment Tracker service will be tracked.
-
-### Disabling Deployment Tracking
-
-Deployment tracking can be disabled by removing `require('cf-deployment-tracker-client').track();` from the beginning of the `server.js` file at the root of this repo.
+This data is collected from the `package.json` file in the sample application and the `VCAP_APPLICATION` and `VCAP_SERVICES` environment variables in IBM Bluemix and other Cloud Foundry platforms. This data is used by IBM to track metrics around deployments of sample applications to IBM Bluemix to measure the usefulness of our examples, so that we can continuously improve the content we offer to you. Only deployments of sample applications that include code to ping the Deployment Tracker service will be tracked.
 
 [deploy_track_url]: https://github.com/cloudant-labs/deployment-tracker
-[service_url]: http://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/alchemy-language.html
 [cloud_foundry]: https://github.com/cloudfoundry/cli
-[getting_started]: http://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/doc/getting_started/
+[getting_started]: https://www.ibm.com/watson/developercloud/doc/getting_started/
+[service_url]: http://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/alchemy-language.html
+[docs]: https://www.ibm.com/watson/developercloud/alchemy-language.html
 [sign_up]: https://console.ng.bluemix.net/registration/

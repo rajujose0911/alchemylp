@@ -2,19 +2,14 @@
 * Watches all the files for changes
 **/
 
-'use strict';
-
-var gulp = require('gulp');
-
-var tasks = [
+const gulp = require('gulp');
+const tasks = [
   'styles',
   'scripts',
   'icon-fonts'
 ];
 
-var watches = tasks.map(function(element) {
-  return element + ':watch';
-});
+const watches = tasks.map((element) => element + ':watch');
 
 gulp.task('compile', tasks);
 gulp.task('watch', watches);
