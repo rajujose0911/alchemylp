@@ -14,15 +14,18 @@
  * limitations under the License.
  */
 
-'use strict';
+const path = require('path');
+require('dotenv').config({ path: path.join(__dirname, '../.env.example') });
 
-require('dotenv').config({silent: true}); // this is loaded automatically in server.js but not app.js
-
-var app = require('../app');
-var request = require('supertest');
+const app = require('../app');
+const request = require('supertest');
 
 describe('express', function() {
-  it('load home page when GET /', function(done) {
-    request(app).get('/').expect(200, done);
-  });
+  it('load home page when GET /', () =>
+    request(app).get('/').expect(200)
+  );
+
+  it('404 if the page does not exist/', () =>
+    request(app).get('/not-found').expect(404)
+  );
 });

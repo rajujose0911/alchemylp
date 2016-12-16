@@ -2,14 +2,9 @@
  * Serve site
  **/
 
-'use strict';
+const gulp = require('gulp');
+const runSequence = require('run-sequence');
 
-var gulp = require('gulp');
-var runSequence = require('run-sequence');
-
-gulp.task('serve', function(cb) {
-  return runSequence(
-    ['compile', 'browser-sync', 'watch'],
-    cb
-  );
-});
+gulp.task('serve', (cb) =>
+  runSequence(['compile', 'browser-sync', 'watch'], cb)
+);

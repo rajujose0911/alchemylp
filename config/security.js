@@ -14,15 +14,10 @@
  * limitations under the License.
  */
 
-'use strict';
-
 // security.js
-var secure = require('express-secure-only');
-var rateLimit = require('express-rate-limit');
-var csrf = require('csurf');
-var cookieParser = require('cookie-parser');
-var helmet = require('helmet');
-var request = require('request');
+const secure = require('express-secure-only');
+const rateLimit = require('express-rate-limit');
+const helmet = require('helmet');
 
 module.exports = function(app) {
   app.enable('trust proxy');
@@ -33,68 +28,13 @@ module.exports = function(app) {
   // 2. helmet with defaults
   app.use(helmet());
 
-  // 3. setup cookies
-  var secret = Math.random().toString(36).substring(7);
-  app.use(cookieParser(secret));
-
-  // 4. csrf
-  var csrfProtection = csrf({ cookie: true });
-  app.get('/', csrfProtection, function(req, res, next) {
-    req._csrfToken = req.csrfToken();
-    next();
-  });
-
-  // 5. rate limiting
-  var limiter = rateLimit({
+  app.use('/api/', rateLimit({
     windowMs: 30 * 1000, // seconds
     delayMs: 0,
-    max: 50,
+    max: 30,
     message: JSON.stringify({
       error: 'Too many requests, please try again in 30 seconds.',
       code: 429
     })
-  });
-
-  // 6. captcha
-  var captchaKeys = {
-    site: process.env.CAPTCHA_SITE || '<captcha-site>',
-    secret: process.env.CAPTCHA_SECRET || '<captcha-secret>'
-  };
-
-  var checkCaptcha = function(req, res, next) {
-    if (req.body && req.body.recaptcha) {
-      request({
-        url: 'https://www.google.com/recaptcha/api/siteverify',
-        method: 'POST',
-        form: {
-          secret: captchaKeys.secret,
-          response: req.body.recaptcha,
-          remoteip: req.ip
-        },
-        json: true
-      }, function(error, response, body) {
-        if (body.success) {
-          limiter.resetIp(req.ip);
-          next();
-        } else {
-          next({
-            code: 'EBADCSRFTOKEN',
-            error: 'Wrong captcha'
-          });
-        }
-      });
-    } else {
-      next();
-    }
-  };
-
-  app.get('/*', csrfProtection, function(req, res, next) {
-    res.locals = {
-      ga: process.env.GOOGLE_ANALYTICS,
-      ct: req.csrfToken()
-    };
-    next();
-  });
-
-  app.use('/api/', csrfProtection, checkCaptcha, limiter);
+  }));
 };

@@ -2,13 +2,13 @@
  * Nodemon edits to server scripts will reload
  **/
 
-var gulp = require('gulp');
-var nodemon = require('gulp-nodemon');
-var reload = require('browser-sync').reload;
+const gulp = require('gulp');
+const nodemon = require('gulp-nodemon');
+const reload = require('browser-sync').reload;
 
 // initiate nodemon
 gulp.task('nodemon', function(cb) {
-  var called = false;
+  let called = false;
   return nodemon({
     script: 'server.js',
     ext: 'ejs',
@@ -23,11 +23,5 @@ gulp.task('nodemon', function(cb) {
       cb();
     }
   })
-  .on('restart', function() {
-    setTimeout(function() {
-      reload({
-        stream: false
-      });
-    }, 1000);
-  });
+  .on('restart', () => setTimeout(() => reload({ stream: false }), 1000));
 });

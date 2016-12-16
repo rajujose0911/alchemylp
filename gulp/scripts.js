@@ -2,30 +2,26 @@
  * Compiles src/js to public/js
  **/
 
-'use strict';
-
-var paths = require('./config.js').paths;
-var gulp = require('gulp');
-var concat = require('gulp-concat');
-var runSequence = require('run-sequence');
-var plumber = require('gulp-plumber');
-var onError = require('./on-error.js');
+const paths = require('./config.js').paths;
+const gulp = require('gulp');
+const concat = require('gulp-concat');
+const runSequence = require('run-sequence');
+const plumber = require('gulp-plumber');
+const onError = require('./on-error.js');
 
 // Paths
-var watchPath = paths.src_scripts + '/**/*.js';
-var destPath = paths.dest_scripts;
+const watchPath = paths.src_scripts + '/**/*.js';
+const destPath = paths.dest_scripts;
 
-gulp.task('scripts', function() {
-  return gulp.src(watchPath)
-    .pipe(plumber({
-      errorHandler: onError
-    }))
+gulp.task('scripts', () =>
+  gulp.src(watchPath)
+    .pipe(plumber({ errorHandler: onError }))
     .pipe(concat('demo.js'))
-    .pipe(gulp.dest(destPath));
-});
+    .pipe(gulp.dest(destPath))
+);
 
-gulp.task('scripts:watch', ['scripts'], function() {
-  return gulp.watch(watchPath).on('change', function() {
-    runSequence('scripts', 'browser-sync-reload');
-  });
-});
+gulp.task('scripts:watch', ['scripts'], () =>
+  gulp.watch(watchPath).on('change', () =>
+    runSequence('scripts', 'browser-sync-reload')
+  )
+);
