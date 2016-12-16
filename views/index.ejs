@@ -10,6 +10,7 @@
     <meta property="og:title" content="AlchemyLanguage demo" />
     <meta property="og:description" content="AlchemyLanguage is a collection of APIs that offer text analysis through natural language processing. This set of APIs can analyze text to help you understand its concepts, entities, keywords, sentiment, and more."
     />
+    <meta name="ct" content="<$= locals.ct $>">
     <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="css/style.css">
 </head>
@@ -23,6 +24,10 @@
                 <span class="wordmark--right">Watson Developer Cloud</span>
             </a>
             <nav class="heading-nav" role="menubar">
+                <li class="base--li heading-nav--li" role="presentation">
+                    <a class="base--a-cta" href="https://console.ng.bluemix.net/registration/?target=/catalog/%3fcategory=watson" target="_blank" role="menuitem">
+                      Start free in Bluemix
+          </a>
                 <li class="base--li heading-nav--li" role="presentation">
                     <a class="heading-nav--item" href="https://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/services-catalog.html" target="_blank" role="menuitem">
                     	Services
@@ -71,6 +76,9 @@
                 </div>
                 <div class="banner--row">
                     <div class="banner--service-links">
+                        <li class="base--li banner--service-link-item">
+                            <a href="https://console.ng.bluemix.net/registration/?target=/catalog/%3fcategory=watson" class="base--a" target="_blank">Start free in Bluemix</a>
+                        </li>
                         <li class="base--li banner--service-link-item">
                             <a href="https://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/alchemy-language/api/v1/" class="base--a" target="_blank">API Reference</a>
                         </li>
@@ -323,10 +331,10 @@
                             </p>
                             <div class="btn-all-container">
                                 <div class="base--p right-float"><span class="icon icon-code"></span>
-                                    <span class="base--a json-btn" target="56" href="">View JSON</span>
+                                    <span class="base--a json-btn" target="54" href="">View JSON</span>
                                 </div>
                             </div>
-                            <div id="json56" class="input--API base--code int-hide">
+                            <div id="json54" class="input--API base--code int-hide">
                                 <pre class="API--json">
                                     <code id="targeted-emotion-API-data" class="language-javascript ">
                                     </code>
@@ -417,11 +425,27 @@
                                 </code>
                               </pre>
                             </div>
-                            <table class="base--table">
-                                <div class="base--tbody entities-table">
 
-                                </div>
+
+
+                            <table class="base--table">
+                                <thead class="base--thead">
+                                    <tr class="base--tr">
+                                        <td class="base--td">Entity</td>
+                                        <td class="base--td relevance">Relevance</td>
+                                        <td class="base--td">Sentiment</td>
+                                        <td class="base--td">Type</td>
+
+                                    </tr>
+                                </thead>
+                                <tbody class="base--tbody entities-table">
+
+                                </tbody>
                             </table>
+
+                            <br>
+                            <br>
+
 
                             <div class="btn-all-container">
 
@@ -478,11 +502,17 @@
                                 </code>
                               </pre>
                             </div>
+                            <table class="base--table ">
+                                <thead class="base--thead">
+                                    <tr class="base--tr">
+                                        <td class="base--td">Keywords</td>
+                                        <td class="base--td">Relevance</td>
+                                        <td class="base--td">Sentiment</td>
+                                    </tr>
+                                </thead>
+                                <tbody class="base--tbody keywords-table">
 
-                            <table class="base--table">
-                                <div class="base--tbody keywords-table">
-
-                                </div>
+                                </tbody>
                             </table>
 
                             <div class="btn-all-container">
@@ -728,6 +758,7 @@
                             <td class="base--td">Sentence</td>
                             <td class="base--td">Score</td>
                             <td class="base--td">Type</td>
+
                         </tr>
                     </thead>
                     <tbody>
@@ -802,89 +833,23 @@
         </script>
 
         <script type="text/html" id="entitiesTemplate">
-          <% _.each(items, function(item, key, list) { %>
-        <table class="base--table entities resultscontainter">
-          <thead class="base--thead" style="border-bottom: 0;">
-              <tr class="base--tr">
-                  <td class="base--td">Entity</td>
-                  <td class="base--td"><% if(item.relevance){ %>	Relevance <% } %></td>
-                  <td class="base--td">	Sentiment	</td>
-                  <td class="base--td">	Type	</td>
-              </tr>
-          </thead>
-                    <tbody>
-                    <tr class="base--tr">
-                        <td class="base--td">
-                            <%= item.text %>
-                        </td>
-                        <td class="base--td">
-                          <% if(item.relevance){ %>
-                            <%= item.relevance %>
-                              <% } %>
-                        </td>
-                        <td class="base--td">
-                            <%= item.sentiment.type %>
-                        </td>
-                        <td class="base--td">
-                            <%= item.type %>
-                        </td>
-                    </tr>
-                    </tbody>
-                    <% if(item.emotions){ %>
-                    <thead class="base--thead nested-relations">
-                        <tr class="base--tr">
-                            <td class="base--td">Emotion</td>
-                            <td  colspan="3" class="base--td">Score</td>
-                        </tr>
-                    </thead>
-                    <% } %>
-                            <tbody>
-                              <% if(item.emotions){ %>
-                              <tr class="base--tr">
-                                  <td class="base--td">Anger</td>
-                                  <td  colspan="3" class="base--td">
-                                      <%= item.emotions.anger %>
-                                  </td>
-                              </tr>
-                              <% } %>
-                              <% if(item.emotions){ %>
-                              <tr class="base--tr">
-                                  <td class="base--td">Disgust</td>
-                                  <td colspan="3" class="base--td">
-                                      <%= item.emotions.disgust %>
-                                  </td>
-                              </tr>
-                              <% } %>
-                              <% if(item.emotions){ %>
-                              <tr class="base--tr">
-                                  <td class="base--td">Fear</td>
-                                  <td colspan="3" class="base--td">
-                                      <%= item.emotions.fear %>
-                                  </td>
-                              </tr>
-                              <% } %>
-                              <% if(item.emotions){ %>
-                              <tr class="base--tr">
-                                  <td class="base--td">Joy</td>
-                                  <td colspan="3" class="base--td">
-                                      <%= item.emotions.joy %>
-                                  </td>
-                              </tr>
-                              <% } %>
-                              <% if(item.emotions){ %>
-                              <tr class="base--tr">
-                                  <td class="base--td">Sadness</td>
-                                  <td colspan="3" class="base--td">
-                                      <%= item.emotions.sadness %>
-                                  </td>
-                              </tr>
-                              <% } %>
-                                </tbody>
-                </table>
-
-        <% }); %>
-            </script>
-
+            <% _.each(items, function(item, key, list) { %>
+                <tr class="base--tr entities">
+                    <td class="base--td">
+                        <%= item.text %>
+                    </td>
+                    <td class="base--td relevance">
+                        <%= item.relevance %>
+                    </td>
+                    <td class="base--td">
+                        <%= item.sentiment.type %>
+                    </td>
+                    <td class="base--td">
+                        <%= item.type %>
+                    </td>
+                </tr>
+            <% }); %>
+        </script>
 
         <script type="text/html" id="targetedemotionTemplate">
 <% _.each(items, function(item, key, list) { %>
@@ -996,84 +961,20 @@
         </script>
 
         <script type="text/html" id="keywordsTemplate">
-          <% _.each(items, function(item, key, list) { %>
-        <table class="base--table keywords resultscontainter">
-          <thead class="base--thead" style="border-bottom: 0;">
-              <tr class="base--tr">
-                  <td class="base--td">Keywords</td>
-                  <td class="base--td">Relevance</td>
-                  <td class="base--td">Sentiment</td>
-                  <td class="base--td"></td>
-              </tr>
-          </thead>
-                    <tbody>
-                    <tr class="base--tr">
-                        <td class="base--td">
-                            <%= item.text %>
-                        </td>
-                        <td class="base--td">
-                            <%= item.relevance %>
-                        </td>
-                        <td class="base--td">
-                            <%= item.sentiment.type %>
-                        </td>
-                        <td class="base--td"></td>
-                    </tr>
-                    </tbody>
-                    <% if(item.emotions){ %>
-                    <thead class="base--thead nested-relations">
-                        <tr class="base--tr">
-                            <td class="base--td">Emotion</td>
-                            <td  colspan="3" class="base--td">Score</td>
-                        </tr>
-                    </thead>
-                    <% } %>
-                            <tbody>
-                              <% if(item.emotions){ %>
-                              <tr class="base--tr">
-                                  <td class="base--td">Anger</td>
-                                  <td  colspan="3" class="base--td">
-                                      <%= item.emotions.anger %>
-                                  </td>
-                              </tr>
-                              <% } %>
-                              <% if(item.emotions){ %>
-                              <tr class="base--tr">
-                                  <td class="base--td">Disgust</td>
-                                  <td colspan="3" class="base--td">
-                                      <%= item.emotions.disgust %>
-                                  </td>
-                              </tr>
-                              <% } %>
-                              <% if(item.emotions){ %>
-                              <tr class="base--tr">
-                                  <td class="base--td">Fear</td>
-                                  <td colspan="3" class="base--td">
-                                      <%= item.emotions.fear %>
-                                  </td>
-                              </tr>
-                              <% } %>
-                              <% if(item.emotions){ %>
-                              <tr class="base--tr">
-                                  <td class="base--td">Joy</td>
-                                  <td colspan="3" class="base--td">
-                                      <%= item.emotions.joy %>
-                                  </td>
-                              </tr>
-                              <% } %>
-                              <% if(item.emotions){ %>
-                              <tr class="base--tr">
-                                  <td class="base--td">Sadness</td>
-                                  <td colspan="3" class="base--td">
-                                      <%= item.emotions.sadness %>
-                                  </td>
-                              </tr>
-                              <% } %>
-                                </tbody>
-                </table>
-
-        <% }); %>
-            </script>
+            <% _.each(items, function(item, key, list) { %>
+                <tr class="base--tr keywords">
+                    <td class="base--td">
+                        <%= item.text %>
+                    </td>
+                    <td class="base--td">
+                        <%= item.relevance %>
+                    </td>
+                    <td class="base--td">
+                        <%= item.sentiment.type %>
+                    </td>
+                </tr>
+                <% }); %>
+        </script>
 
         <script type="text/html" id="titleTemplate">
 
@@ -1388,11 +1289,10 @@
               m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
           })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-          ga('create', 'UA-59827755-16', 'auto');
+          ga('create', '<$= locals.ga $>', 'auto');
           ga('send', 'pageview');
 
         </script>
-
 </body>
 
 </html>
