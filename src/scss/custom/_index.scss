@@ -1,6 +1,26 @@
 //////////////////////////////
 // Custom styles for Alchemy Language Demo
 //////////////////////////////
+a.base--a-cta {
+    border: 2px solid rgb(244, 244, 244);
+    display: table;
+    padding: 0.35em 1.5em;
+    font-weight: 400;
+    color: rgb(244, 244, 244);
+    margin: -.85em 1em;
+    text-transform: none;
+    text-decoration: none;
+    border-radius: 50px;
+
+    &:hover,
+    &:focus {
+      border: 2px solid;
+      border-color: #ba8ff7;
+      color: #ba8ff7;
+      transition: background .2s ease-in-out, color .2s ease-in-out, border-color .2s ease-in-out;
+    }
+}
+
 .container {
   width: auto;
   border-top: 1px solid #D6D7D6;
