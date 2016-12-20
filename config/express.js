@@ -22,6 +22,7 @@ const morgan = require('morgan');
 
 module.exports = function(app) {
   // Configure Express
+  app.use(require('express-status-monitor')());
   app.set('view engine', 'ejs');
   require('ejs').delimiter = '$';
   app.use(morgan('dev'));
