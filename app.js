@@ -25,7 +25,7 @@ require('./config/express')(app);
 
 // If no API Key is provided here, the watson-developer-cloud@2.x.x library will check for an ALCHEMY_LANGUAGE_API_KEY environment property and then fall back to the VCAP_SERVICES property provided by Bluemix.
 var alchemyLanguage = new watson.AlchemyLanguageV1({
-// api_key: '<api-key>'
+ api_key: '8680622e38ad3539e40cf391ed65629226f7e110'
 });
 
 app.post('/api/:method', function(req, res, next) {
